@@ -132,10 +132,10 @@ def evaluate_classifier(featx):
     poscutoff = len(posfeats)*3/4
  
     trainfeats = negfeats[:negcutoff] + posfeats[:poscutoff]
-    print(len(trainfeats))
+    print "No of training reviews:",len(trainfeats)
     #print trainfeats
     testfeats = negfeats[negcutoff:] + posfeats[poscutoff:]
-    print(len(testfeats))
+    print "No of testing reviews:",len(testfeats)
     
     # using 3 classifiers
     classifier_list = ['nb', 'svm', 'maxent']#     
@@ -200,7 +200,7 @@ def evaluate_classifier(featx):
     
     print('')
     
-    print len(NB_pred)
+    #print len(NB_pred)
     
     ME_pred = NB_pred[982:]
     SVM_pred = NB_pred[491:982]
@@ -240,9 +240,14 @@ def evaluate_classifier(featx):
     #print final_pred
     print "-----------------------"
     #print new_label
+    
+    print "Results of ensemble: NB + SVM + ME::"
+    print "----------Confusion Matrix--------------"
     cm = confusion_matrix(final_pred,new_label)
     print cm
-    print "The accuracy score is {:.2%}".format(accuracy_score(final_pred,new_label))
+    print ""
+    print "The accuracy score of ensemble is {:.2%}".format(accuracy_score(final_pred,new_label))
+    print "##############################################"
     
 
     ## CROSS VALIDATION
@@ -328,11 +333,7 @@ def create_word_scores():
 	posWords = []
 	negWords = []
 	posRev,negRev = load_file()
-	#print posWords
-	#raw_input('> ')
-	#posWords = list(itertools.chain(*posWords))
-	#negWords = list(itertools.chain(*negWords))
-	#negWords = [(make_full_dict(f), 'neg') for f in word_split(negWords)]
+	
         #print len(negfeats)
         #posWords = [(make_full_dict(f), 'pos') for f in word_split(posWords)]
         
@@ -394,18 +395,11 @@ def best_word_features(words):
 
 print "----------Unigram features-----------"
 evaluate_classifier(word_feats)
-#raw_input('>')
-#evaluate_classifier(stopword_filtered_word_feats)
-#raw_input('>')
 print "----------Bigram features----------"
 evaluate_classifier(bigram_word_feats)
-#raw_input('>')
 print "----------Trigram features----------"
 evaluate_classifier(trigram_word_feats)    
-#raw_input('>')
-#evaluate_classifier(bigram_word_feats_stopwords)
-#raw_input('>')
-#numbers of features to select
+
 
 def plot_accuracy_curve(maxent_accuracy, svm_accuracy, nb_accuracy , numbers_to_test):
 
@@ -438,7 +432,12 @@ def plot_accuracy_curve(maxent_accuracy, svm_accuracy, nb_accuracy , numbers_to_
 
 
 #numbers_to_test = [10, 100, 1000, 10000, 25000]
-numbers_to_test = np.linspace(1000, 100000, 4)
+
+print ""
+print "Classification using no. of word features 10000 to 100000"
+print ""
+numbers_to_test = np.linspace(10000, 100000, 6)
+
 numbers_to_test = numbers_to_test.astype(int)
 #tries the best_word_features mechanism with each of the numbers_to_test of features
 for num in numbers_to_test:
