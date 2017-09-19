@@ -9,7 +9,8 @@ from sklearn import cross_validation
 from sklearn.metrics import classification_report
 import numpy as np
 from sklearn.metrics import accuracy_score
-
+from sklearn import svm
+from sklearn.linear_model import LogisticRegression
 # review.csv contains two columns
 # first column is the review content (quoted)
 # second column is the assigned sentiment (positive or negative)
@@ -39,11 +40,39 @@ def preprocess():
 
 def learn_model(data,target):
     # preparing data for split validation. 60% training, 40% test
-    data_train,data_test,target_train,target_test = cross_validation.train_test_split(data,target,test_size=0.25,random_state=43)
+    data_train,data_test,target_train,target_test = cross_validation.train_test_split(data,target,test_size=0.20,random_state=43)
     classifier = BernoulliNB().fit(data_train,target_train)
     predicted = classifier.predict(data_test)
     evaluate_model(target_test,predicted)
 
+
+def learn_model_svm(data,target):
+    # preparing data for split validation. 60% training, 40% test
+    data_train,data_test,target_train,target_test = cross_validation.train_test_split(data,target,test_size=0.20,random_state=43)
+    # Perform classification with SVM, kernel=linear
+    #classifier_linear = svm.LinearSVC()
+    classifier_linear = svm.SVC(kernel='linear')
+    #classifier_linear = svm.SVC()
+    #t0 = time.time()
+    classifier_linear.fit(data_train,target_train)
+    #t1 = time.time()
+    predicted = classifier_linear.predict(data_test)
+    #t2 = time.time()
+    evaluate_model(target_test,predicted)
+
+def learn_model_logistic(data,target):
+    # preparing data for split validation. 80% training, 20% test
+    data_train,data_test,target_train,target_test = cross_validation.train_test_split(data,target,test_size=0.20,random_state=43)
+    # Perform classification with SVM, kernel=linear
+    #classifier_linear = svm.LinearSVC()
+    classifier_linear = LogisticRegression()
+    #classifier_linear = svm.SVC()
+    #t0 = time.time()
+    classifier_linear.fit(data_train,target_train)
+    #t1 = time.time()
+    predicted = classifier_linear.predict(data_test)
+    #t2 = time.time()
+    evaluate_model(target_test,predicted)
 # read more about model evaluation metrics here
 # http://scikit-learn.org/stable/modules/model_evaluation.html
 def evaluate_model(target_true,target_predicted):
@@ -54,6 +83,8 @@ def main():
     data,target = load_file()
     tf_idf = preprocess()
     learn_model(tf_idf,target)
+    learn_model_svm(tf_idf,target)
+    learn_model_logistic(tf_idf,target)
 
 
 main()
