@@ -46,7 +46,7 @@ def preprocess_unigram():
 
 def preprocess_bigram():
     data,target = load_file()
-    count_vectorizer = CountVectorizer(ngram_range=(1, 2),binary='False',max_df = 0.5)
+    count_vectorizer = CountVectorizer(ngram_range=(2, 2),binary='False',max_df = 0.5)
     data = count_vectorizer.fit_transform(data)
     print np.shape(data)
     tfidf_data = TfidfTransformer(use_idf=True).fit_transform(data)
@@ -55,9 +55,38 @@ def preprocess_bigram():
 
 def preprocess_trigram():
     data,target = load_file()
-    count_vectorizer = CountVectorizer(ngram_range=(1, 3),binary='False',max_df = 0.5)
+    count_vectorizer = CountVectorizer(ngram_range=(3, 3),binary='False',max_df = 0.5)
     data = count_vectorizer.fit_transform(data)
     print np.shape(data)
+    tfidf_data = TfidfTransformer(use_idf=True).fit_transform(data)
+
+    return tfidf_data
+
+# preprocess creates the term frequency matrix for the review data set
+def preprocess_bigram_trigram():
+    data,target = load_file()
+    count_vectorizer = CountVectorizer(ngram_range=(2, 3),binary='False',max_df = 0.5)
+    data = count_vectorizer.fit_transform(data)
+    print np.shape(data)
+    tfidf_data = TfidfTransformer(use_idf=True).fit_transform(data)
+
+    return tfidf_data
+    #return data
+
+def preprocess_unigram_bigram():
+    data,target = load_file()
+    count_vectorizer = CountVectorizer(ngram_range=(1, 2),binary='False',max_df = 0.5)
+    data = count_vectorizer.fit_transform(data)
+    print np.shape(data)
+    tfidf_data = TfidfTransformer(use_idf=True).fit_transform(data)
+
+    return tfidf_data
+
+def preprocess_trigram_u_b():
+    data,target = load_file()
+    count_vectorizer = CountVectorizer(ngram_range=(1, 3),binary='False',max_df = 0.5)
+    data = count_vectorizer.fit_transform(data)
+    #print np.shape(data)
     tfidf_data = TfidfTransformer(use_idf=True).fit_transform(data)
 
     return tfidf_data
@@ -68,8 +97,11 @@ def learn_model(data,target):
     data_train,data_test,target_train,target_test = cross_validation.train_test_split(data,target,test_size=0.20,random_state=43)
     classifier = BernoulliNB().fit(data_train,target_train)
     predicted = classifier.predict(data_test)
+    #print np.shape(predicted)
+    #print target_test[0:10]
     #evaluate_model(target_test,predicted)
     NB.append(evaluate_model(target_test,predicted)*100)
+    return predicted
 
 
 def learn_model_svm(data,target):
@@ -83,9 +115,12 @@ def learn_model_svm(data,target):
     classifier_linear.fit(data_train,target_train)
     #t1 = time.time()
     predicted = classifier_linear.predict(data_test)
+    #print np.shape(predicted)
+    #print target_test[0:10]
     #t2 = time.time()
     #evaluate_model(target_test,predicted)
     SVM.append(evaluate_model(target_test,predicted)*100)
+    return predicted
 
 def learn_model_logistic(data,target):
     # preparing data for split validation. 80% training, 20% test
@@ -98,8 +133,11 @@ def learn_model_logistic(data,target):
     classifier_linear.fit(data_train,target_train)
     #t1 = time.time()
     predicted = classifier_linear.predict(data_test)
+    #print np.shape(predicted)
+    #print target_test[0:10]
     #t2 = time.time()
     LR.append(evaluate_model(target_test,predicted)*100)
+    return predicted
 # read more about model evaluation metrics here
 # http://scikit-learn.org/stable/modules/model_evaluation.html
 def evaluate_model(target_true,target_predicted):
@@ -107,10 +145,44 @@ def evaluate_model(target_true,target_predicted):
     print "The accuracy score is {:.2%}".format(accuracy_score(target_true,target_predicted))
     return accuracy_score(target_true,target_predicted)
 
-def apply_model(tf_idf,target):
-    learn_model(tf_idf,target)
-    learn_model_svm(tf_idf,target)
-    learn_model_logistic(tf_idf,target)
+def apply_model(tf_idf,target,data):
+    print "Naive Bayes"
+    nb = learn_model(tf_idf,target)
+    print "Support Vector Machine"
+    svm = learn_model_svm(tf_idf,target)
+    print "Logistic Regression"
+    lr = learn_model_logistic(tf_idf,target)
+    data_train,data_test,target_train,target_test = cross_validation.train_test_split(data,target,test_size=0.20,random_state=43)
+    final_pred = []
+    for i in range(0,392):
+        c1 = 0
+        if nb[i] == 'positive':
+            c1 = c1 + 1
+        if lr[i] == 'positive':
+            c1 = c1 + 1
+        if svm[i] == 'positive':
+            c1 = c1 + 1
+        #print i
+        if c1 == 3 or c1 == 2:
+            final_pred.append('positive')
+        else:
+            final_pred.append('negative')
+        
+    print "-----------------------"
+    #print final_pred
+    print "-----------------------"
+    #print new_label
+    
+    print "Results of ensemble: NB + SVM + ME::"
+    print "----------Confusion Matrix--------------"
+    print classification_report(target_test,final_pred)
+    print ""
+    print "The accuracy score of ensemble is {:.2%}".format(accuracy_score(target_test,final_pred))
+    print "##############################################"
+    
+
+    
+    #print nb[0:10],svm[0:10],lr[0:10]
     
 def graph():
     N = 3
@@ -167,13 +239,23 @@ def main():
     
     print "--------------------- Unigram ---------------------------"
     tf_idf = preprocess_unigram()
-    apply_model(tf_idf,target)
+    apply_model(tf_idf,target,data)
     print "--------------------- Bigram ---------------------------"
     tf_idf = preprocess_bigram()
-    apply_model(tf_idf,target)
+    apply_model(tf_idf,target,data)
     print "----------------------- Trigram -------------------------"
     tf_idf = preprocess_trigram()
-    apply_model(tf_idf,target)
+    apply_model(tf_idf,target,data)
+    print "--------------------- Unigram + Bigram---------------------------"
+    tf_idf = preprocess_unigram_bigram()
+    apply_model(tf_idf,target,data)
+    print "--------------------- Bigram + Trigram---------------------------"
+    tf_idf = preprocess_bigram_trigram()
+    apply_model(tf_idf,target,data)
+    print "----------------------- Trigram+Unigram+Bigram -------------------------"
+    tf_idf = preprocess_trigram_u_b()
+    apply_model(tf_idf,target,data)
+
     print NB
     print SVM
     print LR

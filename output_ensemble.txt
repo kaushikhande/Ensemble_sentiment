@@ -1,0 +1,261 @@
+--------------------- Unigram ---------------------------
+(1958, 25057)
+Naive Bayes
+             precision    recall  f1-score   support
+
+   negative       0.80      0.89      0.84       230
+   positive       0.81      0.69      0.74       162
+
+avg / total       0.80      0.80      0.80       392
+
+The accuracy score is 80.36%
+Support Vector Machine
+             precision    recall  f1-score   support
+
+   negative       0.90      0.83      0.86       230
+   positive       0.78      0.87      0.82       162
+
+avg / total       0.85      0.84      0.85       392
+
+The accuracy score is 84.44%
+Logistic Regression
+             precision    recall  f1-score   support
+
+   negative       0.89      0.78      0.83       230
+   positive       0.73      0.86      0.79       162
+
+avg / total       0.82      0.81      0.81       392
+
+The accuracy score is 81.12%
+-----------------------
+-----------------------
+Results of ensemble: NB + SVM + ME::
+----------Confusion Matrix--------------
+             precision    recall  f1-score   support
+
+   negative       0.89      0.83      0.86       230
+   positive       0.78      0.85      0.81       162
+
+avg / total       0.84      0.84      0.84       392
+
+
+The accuracy score of ensemble is 83.67%
+##############################################
+--------------------- Bigram ---------------------------
+(1958, 205650)
+Naive Bayes
+             precision    recall  f1-score   support
+
+   negative       0.78      0.91      0.84       230
+   positive       0.83      0.64      0.72       162
+
+avg / total       0.80      0.80      0.79       392
+
+The accuracy score is 79.59%
+Support Vector Machine
+             precision    recall  f1-score   support
+
+   negative       0.88      0.73      0.80       230
+   positive       0.69      0.85      0.76       162
+
+avg / total       0.80      0.78      0.78       392
+
+The accuracy score is 78.06%
+Logistic Regression
+             precision    recall  f1-score   support
+
+   negative       0.88      0.65      0.74       230
+   positive       0.64      0.87      0.73       162
+
+avg / total       0.78      0.74      0.74       392
+
+The accuracy score is 73.98%
+-----------------------
+-----------------------
+Results of ensemble: NB + SVM + ME::
+----------Confusion Matrix--------------
+             precision    recall  f1-score   support
+
+   negative       0.88      0.73      0.80       230
+   positive       0.69      0.85      0.76       162
+
+avg / total       0.80      0.78      0.78       392
+
+
+The accuracy score of ensemble is 78.06%
+##############################################
+----------------------- Trigram -------------------------
+(1958, 364562)
+Naive Bayes
+             precision    recall  f1-score   support
+
+   negative       0.73      0.90      0.81       230
+   positive       0.79      0.53      0.63       162
+
+avg / total       0.76      0.75      0.74       392
+
+The accuracy score is 74.74%
+Support Vector Machine
+             precision    recall  f1-score   support
+
+   negative       0.87      0.61      0.72       230
+   positive       0.61      0.86      0.72       162
+
+avg / total       0.76      0.72      0.72       392
+
+The accuracy score is 71.68%
+Logistic Regression
+             precision    recall  f1-score   support
+
+   negative       0.93      0.39      0.55       230
+   positive       0.52      0.96      0.68       162
+
+avg / total       0.76      0.62      0.60       392
+
+The accuracy score is 62.24%
+-----------------------
+-----------------------
+Results of ensemble: NB + SVM + ME::
+----------Confusion Matrix--------------
+             precision    recall  f1-score   support
+
+   negative       0.87      0.61      0.72       230
+   positive       0.61      0.87      0.72       162
+
+avg / total       0.76      0.72      0.72       392
+
+
+The accuracy score of ensemble is 71.68%
+##############################################
+--------------------- Unigram + Bigram---------------------------
+(1958, 230707)
+Naive Bayes
+             precision    recall  f1-score   support
+
+   negative       0.81      0.91      0.85       230
+   positive       0.84      0.69      0.76       162
+
+avg / total       0.82      0.82      0.82       392
+
+The accuracy score is 81.89%
+Support Vector Machine
+             precision    recall  f1-score   support
+
+   negative       0.89      0.80      0.84       230
+   positive       0.75      0.86      0.80       162
+
+avg / total       0.83      0.82      0.82       392
+
+The accuracy score is 82.14%
+Logistic Regression
+             precision    recall  f1-score   support
+
+   negative       0.88      0.77      0.82       230
+   positive       0.72      0.85      0.78       162
+
+avg / total       0.81      0.80      0.80       392
+
+The accuracy score is 80.10%
+-----------------------
+-----------------------
+Results of ensemble: NB + SVM + ME::
+----------Confusion Matrix--------------
+             precision    recall  f1-score   support
+
+   negative       0.88      0.80      0.84       230
+   positive       0.75      0.85      0.80       162
+
+avg / total       0.83      0.82      0.82       392
+
+
+The accuracy score of ensemble is 82.14%
+##############################################
+--------------------- Bigram + Trigram---------------------------
+(1958, 570212)
+Naive Bayes
+             precision    recall  f1-score   support
+
+   negative       0.76      0.93      0.84       230
+   positive       0.86      0.59      0.70       162
+
+avg / total       0.80      0.79      0.78       392
+
+The accuracy score is 78.83%
+Support Vector Machine
+             precision    recall  f1-score   support
+
+   negative       0.87      0.67      0.76       230
+   positive       0.65      0.86      0.74       162
+
+avg / total       0.78      0.75      0.75       392
+
+The accuracy score is 74.74%
+Logistic Regression
+             precision    recall  f1-score   support
+
+   negative       0.90      0.60      0.72       230
+   positive       0.61      0.90      0.73       162
+
+avg / total       0.78      0.72      0.72       392
+
+The accuracy score is 72.45%
+-----------------------
+-----------------------
+Results of ensemble: NB + SVM + ME::
+----------Confusion Matrix--------------
+             precision    recall  f1-score   support
+
+   negative       0.87      0.67      0.76       230
+   positive       0.65      0.86      0.74       162
+
+avg / total       0.78      0.75      0.75       392
+
+
+The accuracy score of ensemble is 74.74%
+##############################################
+----------------------- Trigram+Unigram+Bigram -------------------------
+Naive Bayes
+             precision    recall  f1-score   support
+
+   negative       0.79      0.91      0.84       230
+   positive       0.83      0.65      0.73       162
+
+avg / total       0.81      0.80      0.80       392
+
+The accuracy score is 80.10%
+Support Vector Machine
+             precision    recall  f1-score   support
+
+   negative       0.90      0.78      0.84       230
+   positive       0.74      0.88      0.81       162
+
+avg / total       0.84      0.82      0.83       392
+
+The accuracy score is 82.40%
+Logistic Regression
+             precision    recall  f1-score   support
+
+   negative       0.90      0.71      0.79       230
+   positive       0.68      0.88      0.77       162
+
+avg / total       0.81      0.78      0.78       392
+
+The accuracy score is 78.32%
+-----------------------
+-----------------------
+Results of ensemble: NB + SVM + ME::
+----------Confusion Matrix--------------
+             precision    recall  f1-score   support
+
+   negative       0.90      0.78      0.84       230
+   positive       0.74      0.88      0.80       162
+
+avg / total       0.83      0.82      0.82       392
+
+
+The accuracy score of ensemble is 82.14%
+##############################################
+[80.357142857142861, 79.591836734693871, 74.744897959183675, 81.887755102040813, 78.826530612244895, 80.102040816326522]
+[84.438775510204081, 78.061224489795919, 71.683673469387756, 82.142857142857139, 74.744897959183675, 82.397959183673478]
+[81.122448979591837, 73.979591836734699, 62.244897959183675, 80.102040816326522, 72.448979591836732, 78.316326530612244]
+(82.28, 82.69, 82.48)
